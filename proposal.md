@@ -30,8 +30,6 @@ Basic word puzzle which you must solve with no aid from the game, the puzzle its
 - nice to have within word puzzle:
   - a lot harder than a basic word puzzle, perhaps using sound from the computer or information from the other tabs to be able to solve it.
   
-###  - tab 3  
-  
 ## Nice To Have:
 - aesthetically pleasing
   - Screen glitches every so often
