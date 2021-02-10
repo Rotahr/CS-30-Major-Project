@@ -229,11 +229,19 @@ function infoGame() {
   }
   else if (answered === 2) {
     for (let i = 0; i < numberOfQuestionsAsked; i++) {
+      background("teal");
+      if (i  )
       let answer = prompt(savedInfo.get(i));
-      savedInfo.set(i, answer);
-      if (i + 1 === numberOfQuestionsAsked) {
-        text(savedInfo.get(i), 100, i + 1 * 100);
+      background("black");
+      if (answer !== null) {
+        savedInfo.set(i, answer);
+        text(savedInfo.get(i), 100, (numberOfQuestionsAsked + 1) * 100);
         numberOfQuestionsAsked++;
+        // problems
+        // cancelling - refer to previous code
+        // text appearing when you press enter (as you write could be easier than previously thought) - refer to previous code
+        // fullscreen in and out auto writes it down - number of questions asked + i fill white or black for loop 
+        // foreshadowing??
       }
     }
     answered = 3;
