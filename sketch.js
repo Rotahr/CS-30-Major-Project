@@ -18,6 +18,7 @@ savedInfo.set(0, "What is your name?");
 savedInfo.set(1, "How old are you?");
 savedInfo.set(2, "What is the color of your hair?");
 let numberOfQuestionsAsked = 1;
+let numberOfQuestionsAnswered = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -32,13 +33,13 @@ function draw() {
     waitTime += 1000;
   }
   // Fullscreen Verification Ongoing
-  if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
-    gameStated = gameState;
-    gameState = "no";
-  }
-  if (gameState === "no") {
-    youLeft();
-  }
+  // if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
+  //   gameStated = gameState;
+  //   gameState = "no";
+  // }
+  // if (gameState === "no") {
+  //   youLeft();
+  // }
   // Fullscreen Verification State
   if (gameState === "veri") {
     fsVerification();
@@ -228,24 +229,31 @@ function infoGame() {
     };
   }
   else if (answered === 2) {
-    for (let i = 0; i < numberOfQuestionsAsked; i++) {
-      background("teal");
-      if (i  )
-      let answer = prompt(savedInfo.get(i));
-      background("black");
-      if (answer !== null) {
-        savedInfo.set(i, answer);
-        text(savedInfo.get(i), 100, (numberOfQuestionsAsked + 1) * 100);
-        numberOfQuestionsAsked++;
+    background("white");
+    for (let i = 0; i < savedInfo.size; i++) {
+      numberOfQuestionsAsked = i + 1;
+      if (i > numberOfQuestionsAnswered) {
+        fill("white");
+      }
+      else {
+        fill("black");
+      }
+      text(savedInfo.get(i), 100, numberOfQuestionsAsked * 100 + 100);
+      keyTyped();
         // problems
         // cancelling - refer to previous code
         // text appearing when you press enter (as you write could be easier than previously thought) - refer to previous code
         // fullscreen in and out auto writes it down - number of questions asked + i fill white or black for loop 
         // foreshadowing??
-      }
+
+        // map has question and number
+        // for loop gets all the questions on screen
+        // if i > questions asked - text is white
+        // because the the question is related to the asnwer it hsould just swtich
+        // typing within program possible doe?
+
     }
-    answered = 3;
-  }
+  }   
 }
 
 // temp end screen
@@ -253,4 +261,11 @@ function end() {
   background("white");
   textAlign(CENTER);
   text("that's it goodbye", width / 2, height / 2);
+}
+
+function keyTyped(){
+  let letters = [];
+  text(key, 100 + letters * 10, numberOfQuestionsAsked * 100 + 150); 
+  letters.push(key);
+  console.log(key);
 }
