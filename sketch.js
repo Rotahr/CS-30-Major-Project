@@ -9,6 +9,7 @@
 let gameState = "info";
 let gameStated;
 let answered;
+let test = 0;
 // Adding timers using millis()
 let waitTime = 1000;
 let timer = 0;
@@ -140,6 +141,7 @@ function titleScreen() {
   textSize(width / 50);
   text("share your information and have it presented on screen!", width / 2, height / 2 - 175);
   //The play button
+  // eslint-disable-next-line no-undef
   let playButton = new Clickable();
   playButton.x = (width - 750) / 2;
   playButton.y = (height + 200) / 2;
@@ -198,6 +200,7 @@ function infoGame() {
     background("white");
     text("I'm going to be asking you a few questions", width / 2, height / 2 - 200);
     text("and your answers will appear on screen!", width / 2, height / 2 - 100 );
+    // eslint-disable-next-line no-undef
     let infoButton = new Clickable();
     infoButton.x = (width - 750) / 2;
     infoButton.y = (height + 200) / 2;
@@ -239,18 +242,21 @@ function infoGame() {
         fill("black");
       }
       text(savedInfo.get(i), 100, numberOfQuestionsAsked * 100 + 100);
-      keyTyped();
-        // problems
-        // cancelling - refer to previous code
-        // text appearing when you press enter (as you write could be easier than previously thought) - refer to previous code
-        // fullscreen in and out auto writes it down - number of questions asked + i fill white or black for loop 
-        // foreshadowing??
+      if (keyIsPressed) {
+        keyReleased();
+      }
+      
+      // problems
+      // cancelling - refer to previous code
+      // text appearing when you press enter (as you write could be easier than previously thought) - refer to previous code
+      // fullscreen in and out auto writes it down - number of questions asked + i fill white or black for loop 
+      // foreshadowing??
 
-        // map has question and number
-        // for loop gets all the questions on screen
-        // if i > questions asked - text is white
-        // because the the question is related to the asnwer it hsould just swtich
-        // typing within program possible doe?
+      // map has question and number
+      // for loop gets all the questions on screen
+      // if i > questions asked - text is white
+      // because the the question is related to the asnwer it hsould just swtich
+      // typing within program possible doe?
 
     }
   }   
@@ -263,9 +269,10 @@ function end() {
   text("that's it goodbye", width / 2, height / 2);
 }
 
-function keyTyped(){
+function keyReleased(){
   let letters = [];
-  text(key, 100 + letters * 10, numberOfQuestionsAsked * 100 + 150); 
+  text(key, 100 + letters.length * 10, numberOfQuestionsAsked * 100 + 150); 
   letters.push(key);
+  test++;
   console.log(key);
 }
