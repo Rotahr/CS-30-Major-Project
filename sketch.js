@@ -6,7 +6,7 @@
 // - describe what you did to take this project "above and beyond"
 
 // State variable
-let gameState = "info";
+let gameState = "veri";
 let gameStated;
 let answered;
 let test = 0;
@@ -20,6 +20,10 @@ savedInfo.set(1, "How old are you?");
 savedInfo.set(2, "What is the color of your hair?");
 let numberOfQuestionsAsked = 1;
 let numberOfQuestionsAnswered = 0;
+let answer = "";
+
+//test variables
+let letters = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -34,13 +38,13 @@ function draw() {
     waitTime += 1000;
   }
   // Fullscreen Verification Ongoing
-  // if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
-  //   gameStated = gameState;
-  //   gameState = "no";
-  // }
-  // if (gameState === "no") {
-  //   youLeft();
-  // }
+  if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
+    gameStated = gameState;
+    gameState = "no";
+  }
+  if (gameState === "no") {
+    youLeft();
+  }
   // Fullscreen Verification State
   if (gameState === "veri") {
     fsVerification();
@@ -232,6 +236,7 @@ function infoGame() {
     };
   }
   else if (answered === 2) {
+    textAlign(CENTER);
     background("white");
     for (let i = 0; i < savedInfo.size; i++) {
       numberOfQuestionsAsked = i + 1;
@@ -241,14 +246,34 @@ function infoGame() {
       else {
         fill("black");
       }
-      text(savedInfo.get(i), 100, numberOfQuestionsAsked * 100 + 100);
+      text(savedInfo.get(i), width/2, numberOfQuestionsAsked * height / 6 - height / 10); // fixable
       if (keyIsPressed) {
-        keyReleased();
+        if (keyCode === 13) {
+          for(let i = 0; i < letters.length; i++) {
+            answer += letters[i];
+          }
+          savedInfo.set(numberOfQuestionsAnswered, answer);
+          answer = "";
+          letters = [];
+          numberOfQuestionsAnswered++;
+        }
+        else {
+          letters.push(key);
+        }
+        keyIsPressed = false;
       }
+      if (i === numberOfQuestionsAnswered) {
+        fill("black");
+      }
+      else {
+        fill("white");
+      }
+      for (let i = 0; i < letters.length; i++) {   
+        text(letters[i], width/2 + i * width/20 - letters.length * width/84, numberOfQuestionsAsked * height / 6); 
+      }
+
       
       // problems
-      // cancelling - refer to previous code
-      // text appearing when you press enter (as you write could be easier than previously thought) - refer to previous code
       // fullscreen in and out auto writes it down - number of questions asked + i fill white or black for loop 
       // foreshadowing??
 
@@ -267,12 +292,4 @@ function end() {
   background("white");
   textAlign(CENTER);
   text("that's it goodbye", width / 2, height / 2);
-}
-
-function keyReleased(){
-  let letters = [];
-  text(key, 100 + letters.length * 10, numberOfQuestionsAsked * 100 + 150); 
-  letters.push(key);
-  test++;
-  console.log(key);
 }
