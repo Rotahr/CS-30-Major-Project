@@ -6,7 +6,7 @@
 // - describe what you did to take this project "above and beyond"
 
 // State variable
-let gameState = "veri";
+let gameState = "info";
 let gameStated;
 let answered;
 let test = 0;
@@ -18,12 +18,24 @@ let savedInfo = new Map();
 savedInfo.set(0, "What is your name?");
 savedInfo.set(1, "How old are you?");
 savedInfo.set(2, "What is the color of your hair?");
+savedInfo.set(3, "question 4")
+savedInfo.set(4, "question 5")
+savedInfo.set(10, "question 6")
+savedInfo.set(11, "question 7")
+savedInfo.set(12, "question 8")
+savedInfo.set(13, "question 9")
+savedInfo.set(14, "question 10")
+savedInfo.set(20, "question 11")
 let numberOfQuestionsAsked = 1;
 let numberOfQuestionsAnswered = 0;
 let answer = "";
-
-//test variables
+// words you type within the program
 let letters = [];
+let page = 0;
+let amountOfPages = Math.ceil(savedInfo.size / 5);
+let amountOfQuestionPerPage = 5;
+let numberOfQuestionsAnsweredTotal = 0;
+// let illegalWords = ["BACKSPACE", DELETE, ENTER, RETURN, TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -38,13 +50,13 @@ function draw() {
     waitTime += 1000;
   }
   // Fullscreen Verification Ongoing
-  if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
-    gameStated = gameState;
-    gameState = "no";
-  }
-  if (gameState === "no") {
-    youLeft();
-  }
+  // if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
+  //   gameStated = gameState;
+  //   gameState = "no";
+  // }
+  // if (gameState === "no") {
+  //   youLeft();
+  // }
   // Fullscreen Verification State
   if (gameState === "veri") {
     fsVerification();
@@ -238,7 +250,7 @@ function infoGame() {
   else if (answered === 2) {
     textAlign(CENTER);
     background("white");
-    for (let i = 0; i < savedInfo.size; i++) {
+    for (let i = 0; i < amountOfQuestionPerPage; i++) {
       numberOfQuestionsAsked = i + 1;
       if (i > numberOfQuestionsAnswered) {
         fill("white");
@@ -246,16 +258,17 @@ function infoGame() {
       else {
         fill("black");
       }
-      text(savedInfo.get(i), width/2, numberOfQuestionsAsked * height / 6 - height / 10); // fixable
+      text(savedInfo.get(page * 10 + i), width/2, numberOfQuestionsAsked * height / 6 - height / 10); // fixable
       if (keyIsPressed) {
         if (keyCode === 13) {
           for(let i = 0; i < letters.length; i++) {
             answer += letters[i];
           }
-          savedInfo.set(numberOfQuestionsAnswered, answer);
+          savedInfo.set(page * 10 + numberOfQuestionsAnswered, answer);
           answer = "";
           letters = [];
           numberOfQuestionsAnswered++;
+          numberOfQuestionsAnsweredTotal++;
         }
         else {
           letters.push(key);
@@ -269,20 +282,15 @@ function infoGame() {
         fill("white");
       }
       for (let i = 0; i < letters.length; i++) {   
-        text(letters[i], width/2 + i * width/20 - letters.length * width/84, numberOfQuestionsAsked * height / 6); 
+        text(letters[i], width/2 + i * width/30 - letters.length * width/84, numberOfQuestionsAsked * height / 6); 
       }
-
-      
-      // problems
-      // fullscreen in and out auto writes it down - number of questions asked + i fill white or black for loop 
-      // foreshadowing??
-
-      // map has question and number
-      // for loop gets all the questions on screen
-      // if i > questions asked - text is white
-      // because the the question is related to the asnwer it hsould just swtich
-      // typing within program possible doe?
-
+    }
+    if (numberOfQuestionsAnswered === amountOfQuestionPerPage && page < amountOfPages) {
+      page++
+      numberOfQuestionsAnswered = 0;
+    }
+    else if (numberOfQuestionsAnsweredTotal === savedInfo.size) {
+      gameState = "end";
     }
   }   
 }
@@ -291,5 +299,7 @@ function infoGame() {
 function end() {
   background("white");
   textAlign(CENTER);
+  fill("black");
   text("that's it goodbye", width / 2, height / 2);
+  console.log("ok");
 }
