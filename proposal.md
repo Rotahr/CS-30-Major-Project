@@ -49,3 +49,4 @@ Basic word puzzle which you must solve with no aid from the game, the puzzle its
   - browser changes based on what you put in
   - recalls your name, age, etc to try to 'scare' you
 - each tab looks like a destroyed website, with the game still functioning  
+- writing text in infogame doens't include SHIFT and the such

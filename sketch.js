@@ -18,14 +18,14 @@ let savedInfo = new Map();
 savedInfo.set(0, "What is your name?");
 savedInfo.set(1, "How old are you?");
 savedInfo.set(2, "What is the color of your hair?");
-savedInfo.set(3, "question 4")
-savedInfo.set(4, "question 5")
-savedInfo.set(10, "question 6")
-savedInfo.set(11, "question 7")
-savedInfo.set(12, "question 8")
-savedInfo.set(13, "question 9")
-savedInfo.set(14, "question 10")
-savedInfo.set(20, "question 11")
+savedInfo.set(3, "question 4");
+savedInfo.set(4, "question 5");
+savedInfo.set(10, "question 6");
+savedInfo.set(11, "question 7");
+savedInfo.set(12, "question 8");
+savedInfo.set(13, "question 9");
+savedInfo.set(14, "question 10");
+savedInfo.set(20, "question 11");
 let numberOfQuestionsAsked = 1;
 let numberOfQuestionsAnswered = 0;
 let answer = "";
@@ -36,6 +36,12 @@ let amountOfPages = Math.ceil(savedInfo.size / 5);
 let amountOfQuestionPerPage = 5;
 let numberOfQuestionsAnsweredTotal = 0;
 // let illegalWords = ["BACKSPACE", DELETE, ENTER, RETURN, TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW];
+
+// preload images
+let browserSetting;
+function preload() {
+  browserSetting = loadImage("assets/browser setting.PNG");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -50,13 +56,13 @@ function draw() {
     waitTime += 1000;
   }
   // Fullscreen Verification Ongoing
-  // if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
-  //   gameStated = gameState;
-  //   gameState = "no";
-  // }
-  // if (gameState === "no") {
-  //   youLeft();
-  // }
+  if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
+    gameStated = gameState;
+    gameState = "no";
+  }
+  if (gameState === "no") {
+    youLeft();
+  }
   // Fullscreen Verification State
   if (gameState === "veri") {
     fsVerification();
@@ -69,9 +75,9 @@ function draw() {
   if (gameState === "info") {
     infoGame();
   }
-  // Temporary End Screen
-  if (gameState === "end") {
-    end();
+  // browser settings
+  if (gameState === "browser") {
+    browser();
   }
 }
 
@@ -286,20 +292,16 @@ function infoGame() {
       }
     }
     if (numberOfQuestionsAnswered === amountOfQuestionPerPage && page < amountOfPages) {
-      page++
+      page++;
       numberOfQuestionsAnswered = 0;
     }
     else if (numberOfQuestionsAnsweredTotal === savedInfo.size) {
-      gameState = "end";
+      gameState = "browser";
     }
   }   
 }
 
-// temp end screen
-function end() {
-  background("white");
-  textAlign(CENTER);
-  fill("black");
-  text("that's it goodbye", width / 2, height / 2);
-  console.log("ok");
+// browser setting
+function browser() {
+  image(browserSetting, 0, 0, width, height);
 }
