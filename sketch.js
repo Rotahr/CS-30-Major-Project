@@ -6,10 +6,10 @@
 // - describe what you did to take this project "above and beyond"
 
 // State variable
-let gameState = "info";
+let gameState = "browser";
 let gameStated;
+let tab = "browser1";
 let answered;
-let test = 0;
 // Adding timers using millis()
 let waitTime = 1000;
 let timer = 0;
@@ -37,10 +37,12 @@ let amountOfQuestionPerPage = 5;
 let numberOfQuestionsAnsweredTotal = 0;
 // let illegalWords = ["BACKSPACE", DELETE, ENTER, RETURN, TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW];
 
-// preload images
-let browserSetting;
+// preload browsers
 function preload() {
-  browserSetting = loadImage("assets/browser setting.PNG");
+  browserStart = loadImage("assets/Browser Start.PNG");
+  neighbour = loadImage("assets/Neigh.PNG");
+  wordPuzzle = loadImage("assets/Words.PNG");
+  AIbrowser = loadImage("assets/AIBrowser.PNG");
 }
 
 function setup() {
@@ -56,13 +58,13 @@ function draw() {
     waitTime += 1000;
   }
   // Fullscreen Verification Ongoing
-  if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
-    gameStated = gameState;
-    gameState = "no";
-  }
-  if (gameState === "no") {
-    youLeft();
-  }
+  // if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
+  //   gameStated = gameState;
+  //   gameState = "no";
+  // }
+  // if (gameState === "no") {
+  //   youLeft();
+  // }
   // Fullscreen Verification State
   if (gameState === "veri") {
     fsVerification();
@@ -297,11 +299,71 @@ function infoGame() {
     }
     else if (numberOfQuestionsAnsweredTotal === savedInfo.size) {
       gameState = "browser";
+      tab = "browser1"
     }
   }   
 }
 
 // browser setting
 function browser() {
-  image(browserSetting, 0, 0, width, height);
+  let browser1 = new Clickable();
+  browser1.x = 0;
+  browser1.y = 0;
+  browser1.width = width/6.7;
+  browser1.height = height/25;
+  browser1.onPress = function() {
+    tab = "browser1"
+  }
+  let browser2 = new Clickable();
+  browser2.x = width/6;
+  browser2.y = 0;
+  browser2.width = width/7;
+  browser2.height = height/25;
+  browser2.onPress = function() {
+    tab = "browser2"
+  }
+  let browser3 = new Clickable();
+  browser3.x = width/4 +  width/14;
+  browser3.y = 0;
+  browser3.width = width/7;
+  browser3.height = height/25;
+  browser3.onPress = function() {
+    tab = "browser3"
+  }
+  let browser4 = new Clickable();
+  browser4.x = width/2 - width/45;
+  browser4.y = 0;
+  browser4.width = width/7;
+  browser4.height = height/25;
+  browser4.onPress = function() {
+    tab = "browser4"
+  }
+  browser1.draw();
+  browser2.draw();
+  browser3.draw();
+  browser4.draw();
+  if (tab === "browser1") {
+    image(browserStart, 0, 0, width, height);
+  }
+  if (tab === "browser2") {
+    image(neighbour, 0, 0, width, height);
+  }
+  if (tab === "browser3") {
+    image(wordPuzzle, 0, 0, width, height);
+  }
+  if (tab === "browser4") {
+    image(AIbrowser, 0, 0, width, height);
+  }
+  // browser 1 requires link
+ fill("black");
+  textAlign(LEFT, TOP);
+  textSize(width/127);
+  text("Information Presenter!", width/33, height/65.75);
+  //top right profile || if they have a short name detecting the 3 spots breaks probably
+  if (savedInfo.get(0).length > 3) {
+    text(savedInfo.get(0)[0] + savedInfo.get(0)[1] + savedInfo.get(0)[2] + "...", width - width/18, height/17.5);
+  }
+  else {
+    text(savedInfo.get(0) + "...", width - width/18, height/17.5);
+  }
 }
