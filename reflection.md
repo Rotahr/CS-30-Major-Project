@@ -13,6 +13,5 @@ This wasn't as difficult but i learnt a lesson that functions can only be called
 ## What advice would you give to yourself if you were to start a project like this again?
 Work on it whenever you can. Although I completed my "needs to have" list and comepletely finished my short puzzle game, there are a lot of aesthetics and little details i could've added if i had worked on it more. Doing so would make me very happy as it would look very cool. Other than that not much else i would say. I worked through my problems and was able to solve every single one of them with little bugs that at least i know of. There are things such as a type limit with Infogame that i could've created. But it's those small things i would want to improve on.
 
-What was the hardest part of the project?
-
-Were there any problems you could not solve?
+## What was the hardest part of the project?
+The typing program as stated above
