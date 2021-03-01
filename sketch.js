@@ -7,7 +7,7 @@
 // 
 
 // State variables
-let gameState = "browser";
+let gameState = "veri";
 let gameStated;
 let tab = "browser1";
 let answered;
