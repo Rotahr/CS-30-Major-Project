@@ -131,6 +131,16 @@ function draw() {
     else if (state === "not moving") {
       displayGrid();
     }
+    // overlays profile
+    fill("black");
+    textAlign(LEFT, TOP);
+    textSize(width/127);
+    if (savedInfo.get(0).length > 3) {
+      text(savedInfo.get(0)[0] + savedInfo.get(0)[1] + savedInfo.get(0)[2] + "...", width - width/18, height/17.5);
+    }
+    else {
+      text(savedInfo.get(0) + "...", width - width/18, height/17.5);
+    }
     // eslint-disable-next-line no-undef
     let resetButton = new Clickable();
     resetButton.x = width - width/5;
@@ -197,7 +207,7 @@ function fsVerification() {
   }
   if (timer === 5) {
     textSize(50);
-    text("But, to get this game to work, I'm gonna have to get you to go into fullscreen", 30, height / 2 - 25, width, height / 2 - 100);
+    text("But, to get this game to work, I'm gonna have to get you to go into fullscreen", 30, height / 2 - 25, width - 75, height / 2 - 100);
   }
   if (timer === 8) {
     textSize(50);
@@ -276,8 +286,8 @@ function titleScreen() {
     background("red");
     fill("black");
     text("thank you", width / 2, height / 2);
-    gameState = "info";
     timer = 0;
+    gameState = "info";
   };
 }
 
@@ -288,6 +298,7 @@ function infoGame() {
     answered = 1;
     background("white");
     textSize(50);
+    timer = 0;
   }
   // first page of text
   if (answered === 1 && timer < 3) {
