@@ -399,8 +399,8 @@ function infoGame() {
       textSize(50);
       textAlign(CENTER);
       fill("black");
-      text("Welp, that's it!", width/2, height/2);
-      text("Hope you enjoyed my game!", width/2, height/2 - 100);
+      text("Welp, that's it!", width/2, height/2 - 100);
+      text("Hope you enjoyed my game!", width/2, height/2);
       textSize(20);
       text("goodbye", width/2, height/2 + 100);
       if (timer > 5) {
