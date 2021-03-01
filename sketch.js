@@ -1,12 +1,13 @@
-// Project Title
-// Your Name
-// Date
+// Major Project
+// Samein Dorazahi
+// 28/02/21
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// fully finished short puzzle game working completely as intended. Custom images, typing feature, and minigames that result in a code for you to complete the game. 
+// 
 
-// State variable
-let gameState = "info";
+// State variables
+let gameState = "browser";
 let gameStated;
 let tab = "browser1";
 let answered;
@@ -17,27 +18,34 @@ let timer = 0;
 let savedInfo = new Map();
 savedInfo.set(0, "What is your name?");
 savedInfo.set(1, "How old are you?");
-savedInfo.set(2, "What is the color of your hair?");
-savedInfo.set(3, "question 4");
-savedInfo.set(4, "question 5");
-savedInfo.set(10, "question 6");
-savedInfo.set(11, "question 7");
-savedInfo.set(12, "question 8");
-savedInfo.set(13, "question 9");
-savedInfo.set(14, "question 10");
-savedInfo.set(20, "question 11");
+savedInfo.set(2, "What color is your hair?");
+savedInfo.set(3, "What is your favorite color");
+savedInfo.set(4, "What do you for a living?");
+savedInfo.set(10, "What do you eat for breakfast?");
+savedInfo.set(11, "How tall are you?");
+savedInfo.set(12, "Do you have a hobby? If so, what is it?");
+savedInfo.set(13, "What is the color of your car?");
+savedInfo.set(14, "Cats or Dogs?");
+savedInfo.set(20, "Beaches or Snow?");
+savedInfo.set(21, "Coffee or Tea?");
+savedInfo.set(22, "What is your most valuable item at home?");
+savedInfo.set(23, "Where do you live?");
+savedInfo.set(24, "What is your cars license plate number?");
+savedInfo.set(30, "What are your work hours?");
+savedInfo.set(31, "Do you keep your doors locked?");
+savedInfo.set(32, "Do you have any pets at home?");
+savedInfo.set(33, "Do you own any firearms?");
+savedInfo.set(34, "What's your social security number?");
 let numberOfQuestionsAsked = 1;
 let numberOfQuestionsAnswered = 0;
 let answer = "";
-// words you type within the program
+// words you type within infogame
 let letters = [];
 let page = 0;
 let amountOfPages = Math.ceil(savedInfo.size / 5);
 let amountOfQuestionPerPage = 5;
 let numberOfQuestionsAnsweredTotal = 0;
-// let illegalWords = ["BACKSPACE", DELETE, ENTER, RETURN, TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW];
-
-// preload browsers
+// preload browsers and other images
 let browserStart, neighbour, wordPuzzle, AIbrowser, wordBelow, robot, browser1, browser2, browser3, browser4, Xbutton;
 function preload() {
   browserStart = loadImage("assets/Browser Start.PNG");
@@ -47,7 +55,6 @@ function preload() {
   AIbrowser = loadImage("assets/AIBrowser.PNG");
   robot = loadImage("assets/robot.PNG");
 }
-
 // neighbour game setup
 let state = "not moving";
 // used for both hardcoded and generated grids to count which grid you are currently on
@@ -57,7 +64,6 @@ let holdingGrid = [[[0,1,0],[0,0,0],[0,1,0]], [[0,0,1],[1,0,0],[0,0,1]], [[0,1,1
 let grid = [];
 let gridToWin = [];
 let rows, cols, cellWidth, cellHeight, rectX, rectY, rectXC, rectYC;
-
 // AIbrowser setup
 let guess;
 
@@ -67,8 +73,6 @@ function setup() {
   rows = floor(gridNumber/2) + 3;
   cols = floor(gridNumber/2) + 3;
   grid = createRandomGrid(rows, cols);
-  // uncomment and comment the ones below and above respectively to experience hard coded grid, only generates up to how many you put in though
-  // grid = holdingGrid[gridNumber];
   gridToWin = createWinningGrid(rows, cols);
   cellWidth = width / 2 / cols;
   cellHeight = height / 2 / rows;
@@ -85,13 +89,13 @@ function draw() {
     waitTime += 1000;
   }
   // Fullscreen Verification Ongoing
-  // if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
-  //   gameStated = gameState;
-  //   gameState = "no";
-  // }
-  // if (gameState === "no") {
-  //   youLeft();
-  // }
+  if (!window.screenTop && !window.screenY && gameState !== "veri" && gameState !== "no") {
+    gameStated = gameState;
+    gameState = "no";
+  }
+  if (gameState === "no") {
+    youLeft();
+  }
   // Fullscreen Verification State
   if (gameState === "veri") {
     fsVerification();
@@ -159,8 +163,8 @@ function youLeft() {
     textSize(70);
     textAlign(CENTER);
     text("hey don't do that, go back", width / 2, height / 2);
-    // After they re-enter fullscreen
   }
+  // After they re-enter fullscreen
   else if (window.screenTop && window.screenY) {
     background("white");
     textAlign(CENTER);
@@ -253,6 +257,7 @@ function titleScreen() {
       fill("red");
       text("You have so much information, don't you?", width / 2, height / 2);
     }
+    //changes the color of the button when hovering
     playButton.x = (width - 750) / 2;
     playButton.y = (height + 200) / 2;
     playButton.width = 750;
@@ -276,16 +281,19 @@ function titleScreen() {
 
 // Fake game asking the player for information about themselves
 function infoGame() {
+  // sets up answered
   if (answered === undefined) {
     answered = 1;
     background("white");
     textSize(50);
   }
+  // first page of text
   if (answered === 1 && timer < 3) {
     textAlign(CENTER);
     background("white");
     text("Welcome to the Information Presenter!", width / 2, height / 2);
   }
+  // second page
   else if (answered === 1) {
     textAlign(CENTER);
     background("white");
@@ -321,24 +329,29 @@ function infoGame() {
       infoButton.draw();
     };
     infoButton.onPress = function() {
+      // switches to asking questions
       background("white");
       timer = 0;
       answered = 2;
     };
   }
+  // asking and answering questions
   else if (answered === 2) {
     textAlign(CENTER);
     background("white");
     for (let i = 0; i < amountOfQuestionPerPage; i++) {
       numberOfQuestionsAsked = i + 1;
+      // checks which questions are shown
       if (i > numberOfQuestionsAnswered) {
         fill("white");
       }
       else {
         fill("black");
       }
-      text(savedInfo.get(page * 10 + i), width/2, numberOfQuestionsAsked * height / 6 - height / 10); // fixable
+      // the question that is shown
+      text(savedInfo.get(page * 10 + i), width/2, numberOfQuestionsAsked * height / 6 - height / 10);
       if (keyIsPressed) {
+        // if you press enter
         if (keyCode === 13) {
           for(let i = 0; i < letters.length; i++) {
             answer += letters[i];
@@ -353,14 +366,17 @@ function infoGame() {
           timer = 0;
           answer = "";
         }
+        // if you press backspace
         else if (keyCode === 8) {
           letters.pop();
         }
+        // normal typing (ignoring shift)
         else if (key !== "Shift") {
           letters.push(key);
         }
         keyIsPressed = false;
       }
+      // checks which letters are shown whilst typing
       if (i === numberOfQuestionsAnswered) {
         fill("black");
       }
@@ -368,19 +384,22 @@ function infoGame() {
         fill("white");
       }
       for (let i = 0; i < letters.length; i++) {   
+        // shows letters you type
         text(letters[i], width/2 + i * width/25 - letters.length * width/52, numberOfQuestionsAsked * height / 6); 
       }
     }
+    // checks if there are questions left to answer
     if (numberOfQuestionsAnswered === amountOfQuestionPerPage && page < amountOfPages) {
       page++;
       numberOfQuestionsAnswered = 0;
     }
+    // if there are no questions left to answer
     else if (numberOfQuestionsAnsweredTotal === savedInfo.size) {
       background("white");
       textSize(50);
       textAlign(CENTER);
       fill("black");
-      text("Sorry to see you go!", width/2, height/2);
+      text("Welp, that's it!", width/2, height/2);
       text("Hope you enjoyed my game!", width/2, height/2 - 100);
       textSize(20);
       text("goodbye", width/2, height/2 + 100);
@@ -394,6 +413,7 @@ function infoGame() {
 
 // browser setting
 function browser() {
+  // sets up button for switching tabs
   // eslint-disable-next-line no-undef
   browser1 = new Clickable();
   browser1.x = 0;
@@ -430,6 +450,7 @@ function browser() {
   browser4.onPress = function() {
     tab = "browser4";
   };
+  // top right X button button
   // eslint-disable-next-line no-undef
   Xbutton = new Clickable();
   Xbutton.x = width - width/30;
@@ -449,8 +470,10 @@ function browser() {
   browser2.draw();
   browser3.draw();
   browser4.draw();
+  // shows images for each tab
   if (tab === "browser1") {
     image(browserStart, 0, 0, width, height);
+    text("abg.NaN.NaN.a:5500", width/11, height/18);
   }
   else if (tab === "browser3") {
     image(wordPuzzle, 0, 0, width, height);
@@ -483,6 +506,7 @@ function browser() {
     textSize(37);
     textAlign(LEFT);
     fill("black");
+    // checks if you're close to the answer
     if (guess === "9") {
       text("you got it!", width/15, height/2 + height/5);
     }
@@ -496,12 +520,11 @@ function browser() {
       text("Guess!", width/15, height/2 + height/5);
     }
   }
-  // browser 1 requires link !!
+  // texts that is shown on every broswer
   fill("black");
   textAlign(LEFT, TOP);
   textSize(width/127);
   text("Information Presenter!", width/33, height/65.75);
-  text("abg.NaN.NaN.a:5500", width/11, height/18);
   //top right profile || if they have a short name detecting the 3 spots breaks probably
   if (savedInfo.get(0).length > 3) {
     text(savedInfo.get(0)[0] + savedInfo.get(0)[1] + savedInfo.get(0)[2] + "...", width - width/18, height/17.5);
@@ -510,6 +533,8 @@ function browser() {
     text(savedInfo.get(0) + "...", width - width/18, height/17.5);
   }
 }
+
+// everything below is for tab 2 - the neighbour game
 
 // generates the grid you must make
 function createWinningGrid(cols, rows) {
