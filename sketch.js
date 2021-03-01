@@ -50,12 +50,12 @@ let numberOfQuestionsAnsweredTotal = 0;
 // preload browsers and other images
 let browserStart, neighbour, wordPuzzle, AIbrowser, wordBelow, robot, browser1, browser2, browser3, browser4, Xbutton;
 function preload() {
-  browserStart = loadImage("assets/Browser Start.PNG");
-  neighbour = loadImage("assets/Neigh.PNG");
-  wordPuzzle = loadImage("assets/Words.PNG");
-  wordBelow = loadImage("assets/WordPuzzle.PNG");
-  AIbrowser = loadImage("assets/AIBrowser.PNG");
-  robot = loadImage("assets/robot.PNG");
+  browserStart = loadImage("assets/Browser Start.png");
+  neighbour = loadImage("assets/Neigh.png");
+  wordPuzzle = loadImage("assets/Words.png");
+  wordBelow = loadImage("assets/WordPuzzle.png");
+  AIbrowser = loadImage("assets/AIBrowser.png");
+  robot = loadImage("assets/robot.png");
 }
 // neighbour game setup
 let state = "not moving";
