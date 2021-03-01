@@ -3,8 +3,10 @@
 // 28/02/21
 //
 // Extra for Experts:
-// fully finished short puzzle game working completely as intended. Custom images, typing feature, and minigames that result in a code for you to complete the game. 
-// 
+// fully finished puzzle game working completely as intended. 
+// Custom images, typing feature, and minigames that result in a code for you to complete the game. 
+// Small but I still worked hard with the limited amount of time given to create a short, sweet, yet challenging puzzle game. 
+// Smaller little hints are hidden around to help you solve the puzzles.
 
 // State variables
 let gameState = "veri";
@@ -24,13 +26,13 @@ savedInfo.set(4, "What do you for a living?");
 savedInfo.set(10, "What do you eat for breakfast?");
 savedInfo.set(11, "How tall are you?");
 savedInfo.set(12, "Do you have a hobby? If so, what is it?");
-savedInfo.set(13, "What is the color of your car?");
-savedInfo.set(14, "Cats or Dogs?");
+savedInfo.set(13, "Wh1t is the color of your car?");
+savedInfo.set(14, "Cats or 4ogs?");
 savedInfo.set(20, "Beaches or Snow?");
 savedInfo.set(21, "Coffee or Tea?");
 savedInfo.set(22, "What is your most valuable item at home?");
 savedInfo.set(23, "Where do you live?");
-savedInfo.set(24, "What is your cars license plate number?");
+savedInfo.set(24, "What is your cars li3ense plate number?");
 savedInfo.set(30, "What are your work hours?");
 savedInfo.set(31, "Do you keep your doors locked?");
 savedInfo.set(32, "Do you have any pets at home?");
