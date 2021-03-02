@@ -48,7 +48,7 @@ let amountOfPages = Math.ceil(savedInfo.size / 5);
 let amountOfQuestionPerPage = 5;
 let numberOfQuestionsAnsweredTotal = 0;
 // preload browsers and other images
-let browserStart, neighbour, wordPuzzle, AIbrowser, wordBelow, robot, browser1, browser2, browser3, browser4, Xbutton;
+let browserStart, neighbour, wordPuzzle, AIbrowser, wordBelow, robot, browser1, browser2, browser3, browser4, Xbutton, Xhovered;
 function preload() {
   browserStart = loadImage("assets/Browser Start.png");
   neighbour = loadImage("assets/Neigh.png");
@@ -56,6 +56,7 @@ function preload() {
   wordBelow = loadImage("assets/WordPuzzle.png");
   AIbrowser = loadImage("assets/AIBrowser.png");
   robot = loadImage("assets/robot.png");
+  Xhovered = loadImage("assets/Xhovered.png");
 }
 // neighbour game setup
 let state = "not moving";
@@ -99,7 +100,7 @@ function draw() {
     youLeft();
   }
   // Fullscreen Verification State
-  if (gameState === "veri") {
+  else if (gameState === "veri") {
     fsVerification();
   }
   // title screen
@@ -113,56 +114,56 @@ function draw() {
   // browser settings
   else if (gameState === "browser") {
     browser();
-  }
-
-  // neighbour game draw
-  if (tab === "browser2") {
-    background("white");
-    image(neighbour, 0, 0, width, height);
-    // score and level text
-    fill("black");
-    textSize(37);
-    textAlign(LEFT);
-    text("Score: " + gridNumber, width / 20, height / 2);
-    // reads state of grid
-    if (state === "moving") {
-      moveGrid();
+    // neighbour game draw
+    if (tab === "browser2") {
+      background("white");
+      image(neighbour, 0, 0, width, height);
+      // score and level text
+      fill("black");
+      textSize(37);
+      textAlign(LEFT);
+      text("Score: " + gridNumber, width / 20, height / 2);
+      // reads state of grid
+      if (state === "moving") {
+        moveGrid();
+      }
+      else if (state === "not moving") {
+        displayGrid();
+      }
+      // overlays profile
+      fill("black");
+      textAlign(LEFT, TOP);
+      textSize(width/127);
+      if (savedInfo.get(0).length > 3) {
+        text(savedInfo.get(0)[0] + savedInfo.get(0)[1] + savedInfo.get(0)[2] + "...", width - width/18, height/17.5);
+      }
+      else {
+        text(savedInfo.get(0) + "...", width - width/18, height/17.5);
+      }
+      text("Information Presenter!", width/33, height/65.75);
+      // eslint-disable-next-line no-undef
+      let resetButton = new Clickable();
+      resetButton.x = width - width/5;
+      resetButton.y = height / 2;
+      resetButton.width = width/7;
+      resetButton.height = 100;
+      resetButton.color = "white"; //Background color of the clickable (hex number as a string)
+      resetButton.stroke = "black"; //Border color of the clickable (hex number as a string)
+      resetButton.text = "Reset"; //Text of the clickable (string)
+      resetButton.textColor = "black"; //Color of the text (hex number as a string)
+      resetButton.textSize = 50; //Size of the text (integer)
+      resetButton.onPress = function() {
+        gridNumber = 0;
+        rows = floor(gridNumber/2) + 3;
+        cols = floor(gridNumber/2) + 3;
+        cellWidth = width / 2 / cols;
+        cellHeight = height / 2 / rows;
+        gridToWin = createWinningGrid(rows, cols);
+        grid = createRandomGrid(rows, cols);
+        state = "moving";
+      };
+      resetButton.draw();
     }
-    else if (state === "not moving") {
-      displayGrid();
-    }
-    // overlays profile
-    fill("black");
-    textAlign(LEFT, TOP);
-    textSize(width/127);
-    if (savedInfo.get(0).length > 3) {
-      text(savedInfo.get(0)[0] + savedInfo.get(0)[1] + savedInfo.get(0)[2] + "...", width - width/18, height/17.5);
-    }
-    else {
-      text(savedInfo.get(0) + "...", width - width/18, height/17.5);
-    }
-    // eslint-disable-next-line no-undef
-    let resetButton = new Clickable();
-    resetButton.x = width - width/5;
-    resetButton.y = height / 2;
-    resetButton.width = width/7;
-    resetButton.height = 100;
-    resetButton.color = "white"; //Background color of the clickable (hex number as a string)
-    resetButton.stroke = "black"; //Border color of the clickable (hex number as a string)
-    resetButton.text = "Reset"; //Text of the clickable (string)
-    resetButton.textColor = "black"; //Color of the text (hex number as a string)
-    resetButton.textSize = 50; //Size of the text (integer)
-    resetButton.onPress = function() {
-      gridNumber = 0;
-      rows = floor(gridNumber/2) + 3;
-      cols = floor(gridNumber/2) + 3;
-      cellWidth = width / 2 / cols;
-      cellHeight = height / 2 / rows;
-      gridToWin = createWinningGrid(rows, cols);
-      grid = createRandomGrid(rows, cols);
-      state = "moving";
-    };
-    resetButton.draw();
   }
 }
 
@@ -470,6 +471,9 @@ function browser() {
   Xbutton.y = 0;
   Xbutton.width = width/30;
   Xbutton.height = height/25;
+  Xbutton.onHover = function() {
+    image(Xhovered, width - width/33, 0, width/33, height/30);
+  };
   Xbutton.onPress = function() {
     // eslint-disable-next-line no-undef
     let password = prompt("Sorry, I can't let you do that.", "the password contains 4 letters, no capitals. good luck.");
@@ -478,6 +482,7 @@ function browser() {
       close();
     }
   };
+  // draws each button, but under the images therefore they are not shown
   Xbutton.draw();
   browser1.draw();
   browser2.draw();
@@ -486,7 +491,7 @@ function browser() {
   // shows images for each tab
   if (tab === "browser1") {
     image(browserStart, 0, 0, width, height);
-    text("abg.NaN.NaN.a:5500", width/11, height/18);
+    text("abg.undefined.undefined.a:5500", width/11, height/18);
   }
   else if (tab === "browser3") {
     image(wordPuzzle, 0, 0, width, height);
