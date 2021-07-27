@@ -9,10 +9,11 @@
 // Smaller little hints are hidden around to help you solve the puzzles.
 
 // State variables
-let gameState = "veri";
+let gameState = "veri"; // veri title info browser broken
 let gameStated;
 let tab = "browser1";
 let answered;
+let runs = 1;
 // Adding timers using millis()
 let waitTime = 1000;
 let timer = 0;
@@ -68,7 +69,7 @@ let grid = [];
 let gridToWin = [];
 let rows, cols, cellWidth, cellHeight, rectX, rectY, rectXC, rectYC;
 // AIbrowser setup
-let guess;
+let guess, beforeGuess;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -88,7 +89,7 @@ function draw() {
   textAlign(LEFT);
   // Timer for each second, useful for each function
   if (millis() > waitTime) {
-    timer += 1;
+    timer++;
     waitTime += 1000;
   }
   // Fullscreen Verification Ongoing
@@ -110,6 +111,20 @@ function draw() {
   // Info Game
   else if (gameState === "info") {
     infoGame();
+  }
+  else if (gameState === "broken") {
+    let flash;
+    flash = millis();
+    if (millis() > flash) {
+      background("red");
+    }
+    else {
+      background("black");
+    }
+    if (timer > 4) {
+      runs = 2;
+      gameState = "title";
+    }
   }
   // browser settings
   else if (gameState === "browser") {
@@ -475,11 +490,18 @@ function browser() {
     image(Xhovered, width - width/33, 0, width/33, height/30);
   };
   Xbutton.onPress = function() {
-    // eslint-disable-next-line no-undef
-    let password = prompt("Sorry, I can't let you do that.", "the password contains 4 letters, no capitals. good luck.");
-    if (password === "wifi") {
+    let password;
+    if (runs === 1) {
       // eslint-disable-next-line no-undef
-      close();
+      password = prompt("Sorry, I can't let you do that.", "the password contains 4 letters, no capitals. good luck.");
+    }
+    else {
+      // eslint-disable-next-line no-undef
+      password = prompt("White", "Maximize your attention this time through. no need anymore.");
+    } 
+    if (password === "wifi") {
+      gameState = "broken";
+      timer = 0;
     }
   };
   // draws each button, but under the images therefore they are not shown
@@ -516,26 +538,54 @@ function browser() {
     guessButton.text = "Guess"; //Text of the clickable (string)
     guessButton.textColor = "black"; //Color of the text (hex number as a string)
     guessButton.textSize = 50; //Size of the text (integer)
+    guessButton.draw();
     guessButton.onPress = function() {
       // eslint-disable-next-line no-undef
       guess = prompt("What do you think it is?");
     };
-    guessButton.draw();
+    guessButton.onHover = function() {
+      // eslint-disable-next-line no-undef
+      guessButton.x = width/15;
+      guessButton.y = height/2;
+      guessButton.width = width/7;
+      guessButton.height = 100;
+      guessButton.color = "black"; //Background color of the clickable (hex number as a string)
+      guessButton.stroke = "white"; //Border color of the clickable (hex number as a string)
+      guessButton.text = "Guess"; //Text of the clickable (string)
+      guessButton.textColor = "white"; //Color of the text (hex number as a string)
+      guessButton.textSize = 50; //Size of the text (integer)
+      guessButton.draw();
+    };
     textSize(37);
     textAlign(LEFT);
     fill("black");
     // checks if you're close to the answer
-    if (guess === "9") {
-      text("you got it!", width/15, height/2 + height/5);
-    }
-    else if (guess < 9) {
-      text("too low :(", width/15, height/2 + height/5);
-    }
-    else if (guess > 9) {
-      text("too high :(", width/15, height/2 + height/5);
+    if (runs === 1) {
+      if (guess === "9") {
+        text("you got it!", width/15, height/2 + height/5);
+      }
+      else if (guess < 9) {
+        text("too low :(", width/15, height/2 + height/5);
+      }
+      else if (guess > 9) {
+        text("too high :(", width/15, height/2 + height/5);
+      }
+      else {
+        text("Guess!", width/15, height/2 + height/5);
+      }
     }
     else {
-      text("Guess!", width/15, height/2 + height/5);
+      if (guess % 2 === 0) {
+        beforeGuess = 0.5*guess*guess/(guess/4);
+        text(beforeGuess, width/15, height/2 + height/5);
+      }
+      else if (guess % 2 === 1) {
+        text("odd", width/15, height/2 + height/5);
+      }
+      else {
+        text("what", width/15, height/2 + height/5);
+      }
+      text("4 -> xxxx", width/15, height/2 + height/3);
     }
   }
   // texts that is shown on every broswer
@@ -560,7 +610,12 @@ function createWinningGrid(cols, rows) {
   for (let y = 0; y<rows; y++) {
     emptyGrid.push([]);
     for (let x=0; x<cols; x++) {
-      emptyGrid[y].push(1);
+      if (runs === 1) {
+        emptyGrid[y].push(1);
+      }
+      else {
+        emptyGrid[y].push(0);
+      }
     }
   }
   return emptyGrid;
@@ -617,7 +672,12 @@ function moveGrid() {
         fill("black");
         rect(rectX + x * cellWidth + width, rectY + y * cellHeight, cellWidth, cellHeight);
       }
-      fill("black");
+      if (runs === 1) {
+        fill("black");
+      }
+      else {
+        fill("white");
+      }
       rect(rectX + x * cellWidth, rectY + y * cellHeight, cellWidth, cellHeight);
     }
   }
